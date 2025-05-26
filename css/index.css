@@ -1,0 +1,368 @@
+:root {
+  --bg-main: rgb(223, 221, 231);
+  --bg-light: rgb(242, 242, 250);
+  --bg-txt: rgb(204, 198, 216);
+  --bg-darker: #c0b2d1;
+  --bg-dark: rgb(165, 141, 196);
+  --title: #665496;
+  --txt: rgb(49, 40, 59);
+  --bg-image: url(/img/bg.jpg);
+  --bg-warning: rgb(241, 144, 144);
+  --bord-warning: rgb(192, 34, 34);
+  --bg-table: rgb(223, 221, 231);
+  --bg-caption: rgb(165, 141, 196);
+  --bg-group: rgb(184, 171, 201);
+  --table-border: rgb(100, 87, 117);
+}
+
+[data-theme="dark"] {
+  --bg-main: rgb(57, 45, 78);
+  --bg-light: #bfb1ca;
+  --bg-txt: rgb(83, 71, 107);
+  --bg-darker: rgb(108, 97, 133);
+  --bg-dark: rgb(93, 68, 128);
+  --title: rgb(235, 232, 245);
+  --txt: rgb(242, 242, 250);
+  --bg-image: url(/img/bgdark.jpg);
+  --bg-warning: rgb(204, 71, 71);
+  --bord-warning: rgb(107, 20, 20);
+  --bg-table: rgb(125, 111, 150);
+  --bg-caption: rgb(66, 51, 88);
+  --bg-group: rgb(77, 55, 97);
+  --table-border: rgb(19, 12, 31);
+}
+
+.container {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto auto auto auto;
+  grid-template-areas: "header" "nav" "main-text" "footer";
+}
+@font-face {
+  font-family: "title-font";
+  src: local("title-font"), url(font/izbushka.otf);
+}
+@font-face {
+  font-family: "regular";
+  src: local("regular"), url(font/shentox.ttf);
+}
+header {
+  font-family: title-font;
+  text-align: center;
+  color: var(--title);
+  padding-bottom: 20px;
+  grid-area: header;
+  hyphens: none;
+  word-break: keep-all;
+}
+@media screen and (width<1100px) {
+  header {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-areas: "star1 title star2";
+    align-items: center;
+    font-size: 50px;
+  }
+  .nav {
+    font-size: 20px;
+  }
+  #welcome {
+    font-size: 21px;
+  }
+  #img-left img {
+    width: 100%;
+    margin: 2% auto 2% auto;
+  }
+  #divider {
+    opacity: 0;
+    height: 0;
+  }
+  footer{
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-areas: 
+    "theme"
+    "contacts"
+    "vk"
+    "telegram"
+    "number"
+    "email"
+    ;
+  }
+}
+@media screen and (width>500px) and (width<1250px) {
+  .nav {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas: "main class" " collection info";
+    font-size:22px;
+  }
+  header {
+    font-size: 100px;
+  }
+  #welcome {
+    font-size: 25px;
+  }
+  #img-left img {
+    width: 40%;
+    margin: 0 5% 5% 2%;
+  }
+  #go-to {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+  #divider {
+    opacity: 0;
+    height: 0;
+  }
+  footer{ 
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-areas: 
+    "theme"
+    "contacts"
+    "vk"
+    "telegram"
+    "number"
+    "email"
+    ;
+  }
+}
+@media screen and (min-width: 1250px) {
+  .nav {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-areas: "main class collection info";
+    font-size: 24px;
+  }
+  header {
+    font-size: 100px;
+  }
+  #welcome {
+    font-size: 35px;
+  }
+  #img-left img {
+    width: 25%;
+    margin: 0 5% 5% 2%;
+  }
+  #go-to {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+  #divider {
+    opacity: 1;
+    height: 200px;
+    margin-bottom: 5%;
+  }
+  footer {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-areas: 
+    "vk contacts number"
+    "telegram theme email"
+    ;
+  }
+}
+@media screen and (min-width: 2000px) {
+  #img-left img {
+    width: 15%;
+    margin: 0 5% 5% 2%;
+  }
+  #go-to {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+  #divider {
+    opacity: 1;
+    height: 200px;
+    margin-bottom: 5%;
+  }
+  footer {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-areas: 
+    "vk contacts number"
+    "telegram theme email"
+    ;
+  }
+}
+
+.highlighted {
+  font-weight: bold;
+}
+
+body,
+html {
+  background-color: var(--bg-main);
+  height: max-content;
+  font-family: regular;
+  hyphens: auto;
+  -webkit-hyphens: auto;
+  word-break: normal;
+  overflow-wrap: break-word;
+  color: var(--txt);
+}
+nav {
+  background-image: var(--bg-image);
+  border-radius: 20px;
+  width: 95%;
+  margin: auto;
+  * div {
+    height: 70%;
+    text-align: center;
+    border-radius: 10px;
+    background-color: var(--bg-light);
+    padding: 10px;
+    margin: 3% 5% 3% 5%;
+    color: rgb(49, 40, 59);
+  }
+}
+.nav {
+  width: 90%;
+  grid-area: nav;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 2%;
+}
+.main,
+.class,
+.info,
+.collection {
+  border: 2px solid var(--bg-dark);
+}
+.main, .class, .collection{
+  white-space: nowrap;
+}
+a {
+  text-decoration: none;
+  color: var(--txt);
+}
+
+.main-text {
+  grid-area: main-text;
+  background-color: var(--bg-txt);
+  margin: 2% auto 2% auto;
+  height: auto;
+  padding: 3% 5% 3% 5%;
+  border-radius: 20px;
+  width: 85%;
+  font-size: 24px;
+  text-indent: 30px;
+  text-align: justify;
+}
+footer {
+  background-color: var(--bg-darker);
+  height: auto;
+  grid-area: footer;
+  text-align: center;
+  margin: auto auto 1% auto;
+  width: 95%;
+  border-radius: 20px;
+  font-size: 20px;
+  * {
+    margin: 3% 0 3% 0;
+  }
+}
+
+.main {
+  grid-area: main;
+}
+.info {
+  grid-area: info;
+}
+.collection {
+  grid-area: collection;
+}
+.class {
+  grid-area: class;
+}
+#title {
+  grid-area: title;
+}
+#star1 {
+  grid-area: star1;
+}
+#star2 {
+  grid-area: star2;
+}
+.caption {
+  text-align: center;
+  font-weight: bold;
+  padding-bottom: 2%;
+  font-size: 30px;
+  padding-top: 2%;
+  border-radius: 15px;
+  background-color: var(--bg-darker);
+  margin-bottom: 2%;
+}
+#img-left img {
+  float: left;
+  height: auto;
+  border-radius: 15px;
+}
+.clickable {
+  cursor: pointer;
+}
+.centered {
+  text-align: center;
+}
+#tale-src {
+  text-align: right;
+  font-style: italic;
+}
+#go-to {
+  display: grid;
+  margin-top: 10%;
+  text-align: center;
+  * {
+    margin: auto;
+    text-align: center;
+    border-radius: 25px;
+    padding: 2%;
+    width: 80%;
+  }
+}
+#go-to a:hover {
+  background-color: var(--bg-darker);
+}
+.outer {
+  display: grid;
+  grid-template-columns: 1fr;
+}
+.description {
+  margin: 0 auto 3% auto;
+  border: 3px solid var(--bg-dark);
+  border-radius: 15px;
+  padding: 2%;
+  background-color: var(--bg-light);
+  color: rgb(49, 40, 59);
+}
+#divider {
+  background-image: url("/img/divider.png");
+  object-fit: cover;
+  object-position: 50% 50%;
+  width: 100%;
+}
+.back {
+  font-size: 20px;
+  margin-bottom: 2%;
+}
+
+#vk {
+  grid-area: vk;
+}
+#contacts {
+  grid-area: contacts;
+}
+#number {
+  grid-area: number;
+}
+#telegram {
+  grid-area: telegram;
+}
+#theme {
+  grid-area: theme;
+}
+#email {
+  grid-area: email;
+}
