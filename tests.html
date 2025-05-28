@@ -11,7 +11,7 @@
       media="screen"
     />
     <link
-      href="css/collection.css"
+      href="css/tests.css"
       type="text/css"
       rel="stylesheet"
       media="screen"
@@ -53,7 +53,32 @@
       </nav>
       <div class="main-text">
         <div class="caption">Тесты</div>
-    
+          <div class="test-container">
+            <div class="progress">
+                <span id="current-question">1</span>
+                <div class="progress-bar">
+                    <div class="progress-fill"></div>
+                </div>
+                <span id="total-questions">5</span>
+            </div>
+            
+            <div class="question" id="question-text">Текст вопроса</div>
+            
+            <div class="options" id="options-container">
+                <!-- Варианты ответов будут добавлены через JavaScript -->
+            </div>
+            
+            <div class="navigation">
+                <button id="prev-btn" disabled>Назад</button>
+                <button id="next-btn">Далее</button>
+            </div>
+            
+            <div class="results" id="results-container">
+                <h2>Результаты теста</h2>
+                <div id="results-content"></div>
+            </div>
+        </div>
+
       
       </div>
       <footer>
@@ -66,4 +91,5 @@
       </footer>
     </div>
   </body>
+  <script src="/js/tests.js"></script>
 </html>
