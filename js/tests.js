@@ -45,7 +45,6 @@ function initTestSelection() {
         testElement.className = 'test-category';
         testElement.innerHTML = `
             <h3>${testData.title}</h3>
-            <p>${testData.description}</p>
             <p>Вопросов: ${testData.questions.length}</p>
         `;
         
