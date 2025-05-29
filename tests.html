@@ -4,14 +4,15 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>"Синюшкин колодец" &mdash; Тесты</title>
+    
     <link
-      href="css/index.css"
+      href="css/tests.css"
       type="text/css"
       rel="stylesheet"
       media="screen"
     />
     <link
-      href="css/tests.css"
+      href="css/index.css"
       type="text/css"
       rel="stylesheet"
       media="screen"
@@ -53,30 +54,37 @@
       </nav>
       <div class="main-text">
         <div class="caption">Тесты</div>
-          <div class="test-container">
-            <div class="progress">
-                <span id="current-question">1</span>
-                <div class="progress-bar">
-                    <div class="progress-fill"></div>
-                </div>
-                <span id="total-questions">5</span>
+          <div class="test-selection" id="test-selection">
+            <h1>Выберите тест</h1>
+            <div class="test-categories" id="test-categories"></div>
+        </div>
+
+        <div class="test-container" id="test-container" style="display: none;">
+          <button class="back-button" id="back-button">← Назад к выбору теста</button>
+          <h1 id="test-title">Тест</h1>
+                  
+          <div class="progress">
+            <span id="current-question">1</span>
+            <div class="progress-bar">
+              <div class="progress-fill"></div>
             </div>
-            
-            <div class="question" id="question-text">Текст вопроса</div>
-            
-            <div class="options" id="options-container">
-                <!-- Варианты ответов будут добавлены через JavaScript -->
-            </div>
-            
-            <div class="navigation">
-                <button id="prev-btn" disabled>Назад</button>
-                <button id="next-btn">Далее</button>
-            </div>
-            
-            <div class="results" id="results-container">
-                <h2>Результаты теста</h2>
-                <div id="results-content"></div>
-            </div>
+            <span id="total-questions">5</span>
+          </div>
+                  
+          <div class="question" id="question-text">Текст вопроса</div>
+                  
+          <div class="options" id="options-container"></div>
+                  
+          <div class="navigation">
+            <button id="prev-btn" disabled>Назад</button>
+            <button id="next-btn">Далее</button>
+          </div>
+                  
+          <div class="results" id="results-container">
+            <h2>Результаты теста</h2>
+            <div id="results-content"></div>
+            <button id="restart-btn">Пройти тест заново</button>
+          </div>
         </div>
 
       

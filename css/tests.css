@@ -1,14 +1,48 @@
-/* Базовые стили */
-body {
-    line-height: 1.6;
-    margin: 0;
-    padding: 20px;
-    min-height: 100vh;
+.test-categories {
     display: grid;
-    place-items: center;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-top: 2rem;
 }
 
-/* Основной контейнер теста с Grid */
+.test-category {
+    background: var(--bg-light);
+    border: 2px solid var(--bg-dark);
+    border-radius: 10px;
+    padding: 1.5rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.test-category:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.test-category h3 {
+    margin-top: 0;
+    color: var(--txt);
+}
+
+.test-category p {
+    color: var(--txt);
+    font-size: 0.9rem;
+}
+
+.back-button {
+    background: none;
+    border: none;
+    color: var(--bg-dark);
+    font-size: 1rem;
+    cursor: pointer;
+    margin-bottom: 1rem;
+    padding: 0.5rem 0;
+}
+
+.back-button:hover {
+    text-decoration: underline;
+}
+
 .test-container {
     display: grid;
     grid-template-areas:
@@ -26,6 +60,14 @@ body {
     border-radius: 12px;
     padding: 2rem;
     box-sizing: border-box;
+}
+
+h1 {
+    grid-area: header;
+    margin: 0;
+    color: var(--txt);
+    font-size: 2rem;
+    text-align: center;
 }
 
 .progress {
