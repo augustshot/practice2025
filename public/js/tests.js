@@ -45,7 +45,6 @@ function initTestSelection() {
         testElement.className = 'test-category';
         testElement.innerHTML = `
             <h3>${testData.title}</h3>
-            <p>${testData.description}</p>
             <p>Вопросов: ${testData.questions.length}</p>
         `;
         
@@ -82,7 +81,7 @@ function startTest(testId, resetProgress = true) {
 
 // Возврат к выбору теста
 function backToSelection() {
-    testSelection.style.display = 'grid';
+    testSelection.style.display = 'block';
     testContainer.style.display = 'none';
     resultsContainer.style.display = 'none';
 }
