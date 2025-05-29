@@ -82,7 +82,7 @@ function startTest(testId, resetProgress = true) {
 
 // Возврат к выбору теста
 function backToSelection() {
-    testSelection.style.display = 'grid';
+    testSelection.style.display = 'block';
     testContainer.style.display = 'none';
     resultsContainer.style.display = 'none';
 }
