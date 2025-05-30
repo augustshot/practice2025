@@ -16,33 +16,14 @@ const server = app.listen(port, (error) => {
     console.log(`Server listening on port ${server.address().port}`);
 });
 
-// Роут для получения данных из БД
-app.get('/tests', async (req, res) => {
-  try {
-    const [rows] = await pool.query("SELECT "
-+"    t.id AS test_id,"
-+"    t.title AS test_title,"
-+"    q.id AS question_id,"
-+"    q.text AS question_text,"
-+"    q.correct_ans AS correct_answer,"
-+"    ("
-+"        SELECT JSON_ARRAYAGG(v.text ORDER BY v.id)"
-+"        FROM variants v"
-+"        WHERE v.question_id = q.id"
-+"    ) AS variant_options"
-+"FROM "
-+"    tests t"
-+"JOIN "
-+"    questions q ON t.id = q.test_id"
-+"GROUP BY "
-+"    t.id, t.title, t.description, q.id, q.text, q.correct_ans"
-+"ORDER BY "
-+"    t.id, q.id;");
-    res.json(rows);
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: 'Database error' });
-  }
+const select_query = 'SELECT t.title as test_title, q.question AS question_text, q.correct_ans AS correct_answer FROM tests t JOIN questions q ON t.id = q.test_id' +
+" JOIN variants v ON q.id = v.question_id GROUP BY t.title, q.question, q.correct_ans"
+
+app.get('/tests', (request, response) => {
+    pool.query(select_query, (error, result) => {
+        if (error) throw error;
+        response.send(result);
+    });
 });
 
 // Роут для добавления данных
