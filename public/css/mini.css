@@ -1,0 +1,82 @@
+body {
+    font-family: Arial, sans-serif;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f5f5f5;
+}
+h1 {
+    text-align: center;
+    color: #333;
+}
+.game-container {
+    background-color: white;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 30px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+.game-title {
+    color: #2c3e50;
+    border-bottom: 2px solid #3498db;
+    padding-bottom: 10px;
+}
+button {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 5px;
+    transition: background-color 0.3s;
+}
+button:hover {
+    background-color: #2980b9;
+}
+#memory-board {
+    display: grid;
+    gap: 10px;
+    /*margin: 20px auto;*/
+    justify-content: center;
+}
+.memory-card {
+    width: 60px;
+    height: 60px;
+    background-color: #3498db;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+    color: white;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: all 0.3s;
+}
+.memory-card.flipped {
+    background-color: #f1c40f;
+    transform: rotateY(180deg);
+}
+.memory-card.matched {
+    background-color: #2ecc71;
+    cursor: default;
+}
+#snake-board {
+    border: 2px solid #333;
+    display: block;
+    margin: 0 auto;
+    background-color: #ecf0f1;
+}
+.timer, .score {
+    font-size: 20px;
+    font-weight: bold;
+    margin: 10px 0;
+    text-align: center;
+}
+.controls {
+    text-align: center;
+    margin: 15px 0;
+}
+.hidden {
+    display: none;
+}

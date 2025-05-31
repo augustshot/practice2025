@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Игровая площадка</title>
+    <link rel="stylesheet" href="css/mini.css">
+</head>
+<body>
+    <h1>Игровая площадка</h1>
+    
+    <!-- Игра в запоминалки -->
+    <div class="game-container">
+        <h2 class="game-title">Запоминалки</h2>
+        <div class="controls">
+            <button id="memory-4x4">4×4</button>
+            <button id="memory-5x5">6×6</button>
+            <button id="memory-start">Начать игру</button>
+        </div>
+        <div class="timer">Время: <span id="memory-time">0</span> сек</div>
+        <div class="score">Ходы: <span id="memory-moves">0</span></div>
+        <div id="memory-board"></div>
+    </div>
+    
+    <!-- Игра Змейка -->
+    <div class="game-container">
+        <h2 class="game-title">Змейка</h2>
+        <div class="controls">
+            <button id="snake-start">Начать игру</button>
+            <button id="snake-pause">Пауза</button>
+        </div>
+        <div class="score">Очки: <span id="snake-score">0</span></div>
+        <canvas id="snake-board" width="600" height="600" tabindex="1"></canvas>
+        <div class="hidden" id="snake-game-over">
+            <h3 style="text-align: center; color: #e74c3c;">Игра окончена!</h3>
+            <div style="text-align: center;">
+                <button id="snake-restart">Играть снова</button>
+            </div>
+        </div>
+    </div>
+    <script src="js/memory-game.js"></script>
+    <script src="js/snake-game.js"></script>
+</body>
+</html>
