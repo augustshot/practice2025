@@ -16,8 +16,9 @@ const server = app.listen(port, (error) => {
     console.log(`Server listening on port ${server.address().port}`);
 });
 
-const select_query = 'SELECT t.title as test_title, q.question AS question_text, q.correct_ans AS correct_answer FROM tests t JOIN questions q ON t.id = q.test_id' +
+const select_query = 'SELECT t.title as test_title, q.question AS question_text, q.correct_ans AS correct_answer, GROUP_CONCAT(v.text ORDER BY v.id) AS options FROM tests t JOIN questions q ON t.id = q.test_id' +
 " JOIN variants v ON q.id = v.question_id GROUP BY t.title, q.question, q.correct_ans"
+// const select_query = "select * from tests"
 
 app.get('/tests', (request, response) => {
     pool.query(select_query, (error, result) => {

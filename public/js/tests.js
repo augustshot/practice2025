@@ -24,11 +24,13 @@ const restartBtn = document.getElementById('restart-btn');
 
 async function loadTests() {
     try {
-        const response = await fetch('questinos.json');
+        const response = await fetch('/tests');
         if (!response.ok) {
             throw new Error('Не удалось загрузить тесты');
         }
         testsDatabase = await response.json();
+        testsDatabase = SQLtoJson(testsDatabase);
+        console.log(testsDatabase);
         initTestSelection();
     } catch (error) {
         console.error('Ошибка загрузки тестов:', error);
@@ -45,12 +47,38 @@ function initTestSelection() {
         testElement.className = 'test-category';
         testElement.innerHTML = `
             <h3>${testData.title}</h3>
-            <p>Вопросов: ${testData.questions.length}</p>
+            <p style="font-size:20px;">Вопросов: ${testData.questions.length}</p>
         `;
         
         testElement.addEventListener('click', () => startTest(testId));
         testCategories.appendChild(testElement);
     }
+}
+
+function SQLtoJson(data) {
+  const result = {};
+  
+  data.forEach(item => {
+    const testTitle = item.test_title;
+    
+    // Если теста еще нет в результате, добавляем его
+    if (!result[testTitle]) {
+      result[testTitle] = {
+        title: testTitle,
+        questions: []
+      };
+    }
+    
+    // Добавляем вопрос в соответствующий тест
+    result[testTitle].questions.push({
+      question: item.question_text,
+      correctAnswer: item.correct_answer,
+      options: item.options.split(',') // Преобразуем строку в массив
+    });
+  });
+  
+  // Преобразуем объект в массив
+  return Object.values(result);
 }
 
 
@@ -191,7 +219,6 @@ function showResults() {
     
     // Создаем более компактный HTML для результатов
     let resultsHTML = `
-        <h3>Результаты:</h3>
         <ol style="margin-top: 0.5rem;">
     `;
     
@@ -204,17 +231,16 @@ function showResults() {
         resultsHTML += `
             <li style="margin-bottom: 0.8rem;">
                 <p style="margin: 0.2rem 0;"><strong>Вопрос:</strong> ${question.question}</p>
-                <p style="margin: 0.2rem 0;"><strong>Ваш ответ:</strong> 
-                ${userAnswerIndex !== undefined ? question.options[userAnswerIndex] : 'Нет ответа'} 
-                ${isCorrect ? '✅' : '❌'}</p>
-                ${!isCorrect ? `<p style="margin: 0.2rem 0;"><strong>Правильно:</strong> ${question.options[question.correctAnswer]}</p>` : ''}
-            </li>
+                <p style="margin: 0.2rem 0;"><strong>Ваш ответ:</strong><span class=${isCorrect ? 'correct' : 'incorrect'}>
+                ${userAnswerIndex !== undefined ? question.options[userAnswerIndex] : 'Нет ответа'}</span></p>
+                ${!isCorrect ? `<p style="margin: 0.2rem 0;"><strong>Правильный ответ:</strong> ${question.options[question.correctAnswer]}</p>` : ''}
+            <p></li>
         `;
     });
     
     resultsHTML += `</ol>`;
-    resultsHTML += `<p style="margin: 0.5rem 0 0 0;"><strong>Итого:</strong> ${correctAnswers} из ${test.questions.length} `;
-    resultsHTML += `(${Math.round(correctAnswers / test.questions.length * 100)}%)</p>`;
+    resultsHTML += `<h3><p style="margin: 0.5rem 0 0 0; text-align: center;"><strong>Итого:</strong> ${correctAnswers} из ${test.questions.length} `;
+    resultsHTML += `(${Math.round(correctAnswers / test.questions.length * 100)}%)</p></h3>`;
     testContainer.style.gap=0;
     resultsContent.innerHTML = resultsHTML;
     saveResults();
@@ -240,7 +266,7 @@ function saveResults() {
             acc + (answer === test.questions[index].correctAnswer ? 1 : 0), 0) / test.questions.length) * 100)
     };
     
-    //saveResultsToFile(results);
+    // saveResultsToFile(results);
 }
 
 /*async function sendResultsToServer(results) {

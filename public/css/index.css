@@ -192,7 +192,7 @@ header {
 }
 
 body,
-html {
+html{
   background-color: var(--bg-main);
   height: max-content;
   font-family: regular;
