@@ -30,7 +30,7 @@ async function loadTests() {
         }
         testsDatabase = await response.json();
         testsDatabase = SQLtoJson(testsDatabase);
-        console.log(testsDatabase);
+        // console.log(testsDatabase);
         initTestSelection();
     } catch (error) {
         console.error('Ошибка загрузки тестов:', error);
@@ -38,7 +38,7 @@ async function loadTests() {
     }
 }
 
-// Инициализация выбора теста
+// Выбор теста
 function initTestSelection() {
     testCategories.innerHTML = '';
     
@@ -46,7 +46,7 @@ function initTestSelection() {
         const testElement = document.createElement('div');
         testElement.className = 'test-category';
         testElement.innerHTML = `
-            <h3>${testData.title}</h3>
+            <h3>${testData.title}${localStorage.getItem(testData.title) == 1 ? ' <span class="correct">(100%)</span>' : ''}</h3>
             <p style="font-size:20px;">Вопросов: ${testData.questions.length}</p>
         `;
         
@@ -112,6 +112,7 @@ function backToSelection() {
     testSelection.style.display = 'block';
     testContainer.style.display = 'none';
     resultsContainer.style.display = 'none';
+        initTestSelection();
 }
 
 // Загрузка вопроса
@@ -240,48 +241,12 @@ function showResults() {
     
     resultsHTML += `</ol>`;
     resultsHTML += `<h3><p style="margin: 0.5rem 0 0 0; text-align: center;"><strong>Итого:</strong> ${correctAnswers} из ${test.questions.length} `;
-    resultsHTML += `(${Math.round(correctAnswers / test.questions.length * 100)}%)</p></h3>`;
+    resultPercent = Math.round(correctAnswers / test.questions.length * 100);
+    resultsHTML += `(` + resultPercent + `%)</p></h3>`;
+    if(resultPercent == 100) localStorage.setItem(testsDatabase[appState.currentTest].title, 1);
     testContainer.style.gap=0;
     resultsContent.innerHTML = resultsHTML;
-    saveResults();
 }
-
-// Скачать результаты в JSON
-function saveResults() {
-    const test = testsDatabase[appState.currentTest];
-    
-    const results = {
-        testTitle: test.title,
-        date: new Date().toISOString(),
-        answers: appState.answers.map((answer, index) => ({
-            question: test.questions[index].question,
-            userAnswer: answer !== undefined ? test.questions[index].options[answer] : null,
-            correctAnswer: test.questions[index].options[test.questions[index].correctAnswer],
-            isCorrect: answer === test.questions[index].correctAnswer
-        })),
-        totalCorrect: appState.answers.reduce((acc, answer, index) => 
-            acc + (answer === test.questions[index].correctAnswer ? 1 : 0), 0),
-        totalQuestions: test.questions.length,
-        percentage: Math.round((appState.answers.reduce((acc, answer, index) => 
-            acc + (answer === test.questions[index].correctAnswer ? 1 : 0), 0) / test.questions.length) * 100)
-    };
-    
-    // saveResultsToFile(results);
-}
-
-/*async function sendResultsToServer(results) {
-    try {
-        const response = await fetch('/api/save-results', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(results)
-        });
-        if (!response.ok) throw new Error('Ошибка сохранения');
-        console.log('Результаты сохранены на сервере');
-    } catch (error) {
-        console.error('Ошибка:', error);
-    }
-}*/
 
 // Обработчики событий
 backButton.addEventListener('click', backToSelection);

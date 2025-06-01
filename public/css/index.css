@@ -205,7 +205,7 @@ html{
 nav {
   background-image: var(--bg-image);
   border-radius: 20px;
-  width: 95%;
+  width: 85%;
   margin: auto;
   * div {
     height: 70%;
@@ -224,6 +224,11 @@ nav {
   margin-right: auto;
   padding: 2%;
 }
+/* .nav > :hover{
+transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+} */
+
 .main,
 .class,
 .info,
@@ -245,7 +250,7 @@ a {
   height: auto;
   padding: 3% 5% 3% 5%;
   border-radius: 20px;
-  width: 85%;
+  width: 75%;
   font-size: 24px;
   text-indent: 30px;
   text-align: justify;
@@ -256,7 +261,7 @@ footer {
   grid-area: footer;
   text-align: center;
   margin: auto auto 1% auto;
-  width: 95%;
+  width: 85%;
   border-radius: 20px;
   font-size: 20px;
   * {
@@ -324,6 +329,8 @@ footer {
 }
 #go-to a:hover {
   background-color: var(--bg-darker);
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 }
 .outer {
   display: grid;
