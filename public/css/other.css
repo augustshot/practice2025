@@ -42,16 +42,19 @@ textarea {
   color: white;
 }
 #outer{
+  display: flex;
   text-align: center; 
+  justify-content: center;
 }
 #mine{
   display: table;
-  width: 100%;
+  width: 50%;
   min-height: 500px;
   text-align: center;
-  margin: 30px;
+  justify-content: center;
+  background-position: center;
   border-radius: 10px;
-  background-image: url("../img/test.jpg");
+  background-image: url("../img/IMG_2088.PNG");
   background-repeat: no-repeat;
   background-size: cover; 
 }
