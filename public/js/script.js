@@ -37,7 +37,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         // Индикатор глубины
-        document.getElementById('depthFill').style.height = `${depthPercent}%`;
+        document.getElementById('depthFill').style.height = `${100-depthPercent}%`;
         document.getElementById('depthText').textContent = `Глубина: ${Math.floor((scrollPos+document.documentElement.clientHeight)/10)}м`;
 
         // Камни с оптимизированными проверками
@@ -45,6 +45,20 @@ document.addEventListener('DOMContentLoaded', () => {
             const isVisible = scrollPos > stone.minDepth && scrollPos < stone.maxDepth;
             stone.element.style.opacity = isVisible ? '1' : '0';
         });
+        const finalImage = document.getElementById('deepFinalImage');
+        const finalImageStartDepth = 45000; // Когда начинать показ
+        const finalImageFullDepth = 48000; // Когда полностью видна
+        
+        if (scrollPos >= finalImageStartDepth) {
+            const progress = Math.min(1, (scrollPos - finalImageStartDepth) / 
+                                    (finalImageFullDepth - finalImageStartDepth));
+            finalImage.style.opacity = 1;
+            
+            // Дополнительные эффекты (опционально)
+            finalImage.style.transform = `translateX(-50%) scale(${1 + progress * 0.1})`;
+        } else {
+            finalImage.style.opacity = 0;
+        }
     }
     window.addEventListener('scroll', () => {
         lastScroll = window.scrollY;
