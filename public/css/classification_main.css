@@ -87,12 +87,12 @@ tr {
   border-radius: 20px;
   margin: auto;
   padding: 1%;
-  :hover {
+}
+a:hover {
     background-color: var(--bg-txt);
     transform: translateY(-3px);
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
   }
-}
 .main-group {
   font-size: 24px;
   padding: 1%;
