@@ -1,8 +1,28 @@
-.test-categories {
+@media screen and (width<=750px){
+    .test-categories {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
+}
+
+@media screen and (width>750px) and (width<=1400px) {
+    .test-categories {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
+}
+
+@media screen and (width>1400px) {
+    .test-categories {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 1.5rem;
     margin-top: 2rem;
+}
 }
 
 .test-category {

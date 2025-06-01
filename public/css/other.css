@@ -31,40 +31,34 @@ textarea {
   width: 50%;
   max-width: 95%;
 }
+#mine-text:hover{
+  text-decoration: none;
+}
+#mine-text{
+  font-family: title-font;
+  font-size: 60px;
+  display: table-cell;
+  vertical-align: middle;
+  color: white;
+}
+#outer{
+  text-align: center; 
+}
+#mine{
+  display: table;
+  width: 100%;
+  min-height: 500px;
+  text-align: center;
+  margin: 30px;
+  border-radius: 10px;
+  background-image: url("../img/test.jpg");
+  background-repeat: no-repeat;
+  background-size: cover; 
+}
 button {
   background-color: var(--bg-light);
   padding: 0.5% 1% 0.5% 1%;
   border-radius: 10px;
   cursor: pointer;
   color: var(--txt);
-}
-input,
-textarea {
-  border-radius: 5px;
-}
-#feedback {
-  width: 100%;
-  * {
-    margin: auto;
-  }
-  margin-bottom: 2%;
-}
-/* .thanks {
-  font-size: 18px;
-  background-color: rgb(163, 226, 163);
-  padding: 0.5% 1.5% 0.5% 0;
-  border: 3px rgb(93, 143, 93) solid;
-  border-radius: 15px;
-  width: 30%;
-  margin: 2%;
-  text-align: center;
-} */
-#output {
-  margin: auto;
-  width: 80%;
-}
-#api * {
-  /* width: 80%; */
-  margin-top: 1%;
-  text-align: center;
 }
