@@ -33,13 +33,29 @@
     background: none;
     border: none;
     color: var(--bg-dark);
-    cursor: pointer;
+    text-align: center;
     margin-bottom: 1rem;
     padding: 0.5rem 0;
+    font-weight: bold;
+}
+#back-button{
+    cursor: pointer;
 }
 
-.back-button:hover {
+#back-button:hover {
     text-decoration: underline;
+}
+
+.restart-button *{
+    background-color: var(--bg-darker);
+    color: var(--txt);
+}
+.restart-button *:hover{
+    transform: translateY(-2px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+.restart-button{
+    text-align: center;
 }
 
 .test-container {

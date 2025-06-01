@@ -89,6 +89,8 @@ tr {
   padding: 1%;
   :hover {
     background-color: var(--bg-txt);
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
   }
 }
 .main-group {
