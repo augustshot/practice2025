@@ -3,10 +3,9 @@ const memoryBoard = document.getElementById('memory-board');
 const memoryTime = document.getElementById('memory-time');
 const memoryMoves = document.getElementById('memory-moves');
 const memoryStartBtn = document.getElementById('memory-start');
-const memory4x4Btn = document.getElementById('memory-4x4');
-const memory5x5Btn = document.getElementById('memory-5x5');
+const memoryStopBtn = document.getElementById('memory-stop');
 
-let memorySize = 4; // По умолчанию 4x4
+let memorySize = 4; 
 let memoryCards = [];
 let hasFlippedCard = false;
 let lockBoard = false;
@@ -17,17 +16,8 @@ let seconds = 0;
 let matchedPairs = 0;
 let totalPairs = 0;
 
-memory4x4Btn.addEventListener('click', () => {
-    memorySize = 4;
-    createMemoryBoard();
-});
-
-memory5x5Btn.addEventListener('click', () => {
-    memorySize = 6;
-    createMemoryBoard();
-});
-
 memoryStartBtn.addEventListener('click', startMemoryGame);
+memoryStopBtn.addEventListener('click', stopMemoryGame);
 
 function createMemoryBoard() {
     memoryBoard.innerHTML = '';
@@ -35,7 +25,7 @@ function createMemoryBoard() {
     
     // Создаем пары карточек
     totalPairs = Math.floor(memorySize * memorySize / 2);
-    const symbols = ['🐶', '🐱', '🐭', '🐹', '🐰', '🦊', '🐻', '🐼', '🐨', '🐯', '🦁', '🐮', '🐷', '🐸', '🐵'];
+    const symbols = ['🐶', '🐱', '🐭', '🐹', '🐰', '🦊', '🐻', '🐼'];
     const selectedSymbols = symbols.slice(0, totalPairs);
     const cards = [...selectedSymbols, ...selectedSymbols];
     
@@ -85,6 +75,16 @@ function startMemoryGame() {
     }, 1000);
 }
 
+function stopMemoryGame(){
+    createMemoryBoard();
+    resetBoard();
+    clearInterval(timer);
+    moves = 0;
+    seconds = 0;
+    memoryTime.innerText = 0;
+    memoryMoves.innerText = 0;
+}
+
 function resetMemoryGame() {
     moves = 0;
     matchedPairs = 0;
@@ -129,13 +129,37 @@ function checkForMatch() {
         matchedPairs++;
         if (matchedPairs === totalPairs) {
             clearInterval(timer);
-            setTimeout(() => {
-                alert(`Поздравляем! Вы победили за ${seconds} секунд и ${moves} ходов!`);
-            }, 500);
+            alert(`Поздравляем! Вы победили за ${seconds} секунд и ${moves} ходов!`);
+            addResult();
         }
     } else {
         unflipCards();
     }
+}
+
+function addResult(){
+
+    showRating();
+}
+
+async function loadRating() {
+    try {
+        const response = await fetch('/rating');
+        if (!response.ok) {
+            throw new Error('Не удалось загрузить тесты');
+        }
+        ratingDatabase = await response.json();
+        // ratingDatabase = SQLtoJson(testsDatabase);
+        // console.log(testsDatabase);
+    } catch (error) {
+        console.error('Ошибка загрузки тестов:', error);
+        testCategories.innerHTML = '<p class="error">Не удалось загрузить тесты. Пожалуйста, попробуйте позже.</p>';
+    }
+}
+
+function showRating(){
+    loadRating();
+
 }
 
 function disableCards() {
@@ -162,5 +186,5 @@ function resetBoard() {
     [firstCard, secondCard] = [null, null];
 }
 
-// Инициализация доски 4x4 по умолчанию
 createMemoryBoard();
+showRating();

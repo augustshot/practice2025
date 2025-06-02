@@ -36,7 +36,7 @@ textarea {
 }
 #mine-text{
   font-family: title-font;
-  font-size: 40px;
+  font-size: 60px;
   display: table-cell;
   vertical-align: middle;
   color: white;
@@ -54,7 +54,7 @@ textarea {
   justify-content: center;
   background-position: center;
   border-radius: 10px;
-  background-image: url("../img/IMG_2088.PNG");
+  background-image: url("../img/IMG_2098.PNG");
   background-repeat: no-repeat;
   background-size: cover; 
 }
