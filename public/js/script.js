@@ -38,7 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Индикатор глубины
         document.getElementById('depthFill').style.height = `${100-depthPercent}%`;
-        document.getElementById('depthText').textContent = `Глубина: ${Math.floor((scrollPos+document.documentElement.clientHeight)/10)}м`;
+        document.getElementById('depthText').textContent = `Глубина: ${Math.floor((scrollPos+document.documentElement.clientHeight)/50)}м`;
 
         // Камни с оптимизированными проверками
         stones.forEach(stone => {
