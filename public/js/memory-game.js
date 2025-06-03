@@ -3,10 +3,11 @@ const memoryBoard = document.getElementById('memory-board');
 const memoryTime = document.getElementById('memory-time');
 const memoryMoves = document.getElementById('memory-moves');
 const memoryStartBtn = document.getElementById('memory-start');
-const memory4x4Btn = document.getElementById('memory-4x4');
-const memory5x5Btn = document.getElementById('memory-5x5');
+const memoryStopBtn = document.getElementById('memory-stop');
+const form = document.getElementById('addUserForm');
+const fine = document.getElementById("fine");
 
-let memorySize = 4; // По умолчанию 4x4
+let memorySize = 4; 
 let memoryCards = [];
 let hasFlippedCard = false;
 let lockBoard = false;
@@ -16,18 +17,11 @@ let timer;
 let seconds = 0;
 let matchedPairs = 0;
 let totalPairs = 0;
-
-memory4x4Btn.addEventListener('click', () => {
-    memorySize = 4;
-    createMemoryBoard();
-});
-
-memory5x5Btn.addEventListener('click', () => {
-    memorySize = 6;
-    createMemoryBoard();
-});
+let ratingDatabase = {};
+let fineTimer;
 
 memoryStartBtn.addEventListener('click', startMemoryGame);
+memoryStopBtn.addEventListener('click', stopMemoryGame);
 
 function createMemoryBoard() {
     memoryBoard.innerHTML = '';
@@ -35,7 +29,7 @@ function createMemoryBoard() {
     
     // Создаем пары карточек
     totalPairs = Math.floor(memorySize * memorySize / 2);
-    const symbols = ['🐶', '🐱', '🐭', '🐹', '🐰', '🦊', '🐻', '🐼', '🐨', '🐯', '🦁', '🐮', '🐷', '🐸', '🐵'];
+    const symbols = ['🐶', '🐱', '🐭', '🐹', '🐰', '🦊', '🐻', '🐼'];
     const selectedSymbols = symbols.slice(0, totalPairs);
     const cards = [...selectedSymbols, ...selectedSymbols];
     
@@ -85,6 +79,16 @@ function startMemoryGame() {
     }, 1000);
 }
 
+function stopMemoryGame(){
+    createMemoryBoard();
+    resetBoard();
+    clearInterval(timer);
+    moves = 0;
+    seconds = 0;
+    memoryTime.innerText = 0;
+    memoryMoves.innerText = 0;
+}
+
 function resetMemoryGame() {
     moves = 0;
     matchedPairs = 0;
@@ -129,14 +133,99 @@ function checkForMatch() {
         matchedPairs++;
         if (matchedPairs === totalPairs) {
             clearInterval(timer);
-            setTimeout(() => {
-                alert(`Поздравляем! Вы победили за ${seconds} секунд и ${moves} ходов!`);
-            }, 500);
+            form.classList.remove("hidden");
         }
     } else {
         unflipCards();
+        seconds+=2;
+        fine.classList.remove("hidden");
+        setTimeout(() => {
+            fine.classList.add('hidden');
+        }, 1000);
     }
 }
+
+form.addEventListener('submit', async function(e) {
+    e.preventDefault(); // Предотвращаем стандартную отправку формы
+    form.classList.add("hidden");
+    const name = document.getElementById('name').value;
+    const score = seconds;
+    try {
+        // Отправляем данные на сервер
+        const response = await fetch('http://localhost:3000/rating', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                name: name,
+                score: score
+            })
+        });
+
+        if (!response.ok) {
+            throw new Error('Ошибка при добавлении пользователя');
+        }
+
+        const result = await response.text();
+        // Очищаем форму после успешного добавления
+        document.getElementById('addUserForm').reset();
+        getRating();
+    } catch (error) {
+        console.error('Ошибка:', error);
+    }
+});
+
+
+async function getRating() {
+    try {
+        const response = await fetch('/rating');
+        if (!response.ok) {
+            throw new Error('Не удалось загрузить тесты');
+        }
+        ratingDatabase = await response.json();
+    } catch (error) {
+        console.error('Ошибка загрузки тестов:', error);
+        testCategories.innerHTML = '<p class="error">Не удалось загрузить тесты. Пожалуйста, попробуйте позже.</p>';
+    }
+    const sortedParticipants = [...ratingDatabase].sort((a, b) => a.score - b.score);
+    const top10 = sortedParticipants.slice(0, 10);
+    let tableHTML = `
+        <table>
+            <thead>
+                <tr>
+                    <th>Место</th>
+                    <th>Имя</th>
+                    <th>Время</th>
+                </tr>
+            </thead>
+            <tbody>
+    `;
+    if(ratingDatabase.length == 0){
+        tableHTML += `
+                <tr>
+                    <td colspan=3 >Здесь пока никого нет!</td>
+                </tr>
+            `;
+    }
+    else{
+        top10.forEach((participant, index) => {
+            tableHTML += `
+                <tr>
+                    <td>${index + 1}</td>
+                    <td>${participant.name}</td>
+                    <td>${participant.score}</td>
+                </tr>
+            `;
+    });
+    }
+    tableHTML += `
+            </tbody>
+        </table>
+    `;
+    document.getElementById("table").innerHTML = tableHTML;
+}
+
 
 function disableCards() {
     firstCard.classList.add('matched');
@@ -162,5 +251,5 @@ function resetBoard() {
     [firstCard, secondCard] = [null, null];
 }
 
-// Инициализация доски 4x4 по умолчанию
 createMemoryBoard();
+getRating();

@@ -18,7 +18,6 @@ const server = app.listen(port, (error) => {
 
 const select_query = 'SELECT t.title as test_title, q.question AS question_text, q.correct_ans AS correct_answer, GROUP_CONCAT(v.text ORDER BY v.id) AS options FROM tests t JOIN questions q ON t.id = q.test_id' +
 " JOIN variants v ON q.id = v.question_id GROUP BY t.title, q.question, q.correct_ans"
-// const select_query = "select * from tests"
 
 app.get('/tests', (request, response) => {
     pool.query(select_query, (error, result) => {
@@ -27,14 +26,39 @@ app.get('/tests', (request, response) => {
     });
 });
 
-// Роут для добавления данных
-// app.post('/api/data', async (req, res) => {
+app.get('/rating', (request, response) => {
+    pool.query("SELECT * FROM rating", (error, result) => {
+        if (error) throw error;
+        response.send(result);
+    });
+});
+
+// app.post('/rating', async (req, res) => {
 //   try {
 //     const { name, score } = req.body;
-//     await pool.query('INSERT INTO test_results (name, score) VALUES (?, ?)', [name, score]);
+//     await pool.query('INSERT INTO rating (name, score) VALUES (?, ?)', [name, score]);
 //     res.json({ success: true });
 //   } catch (err) {
 //     console.error(err);
 //     res.status(500).json({ error: 'Insert failed' });
 //   }
 // });
+
+
+app.post('/rating', (request, response) => {
+    pool.query('INSERT INTO rating SET ?', request.body, (error, result) => {
+        if (error) throw error;
+        response.status(201).send(`User added with ID: ${result.insertId}`);
+    });
+});
+
+// Update an existing user 
+app.put('/rating/:name', (request, response) => {
+    const name = request.params.name;
+    pool.query('UPDATE rating SET ? WHERE name = ?', [request.body, name], (error, result) => {
+        if (error) throw error;
+        response.send('User updated successfully.');
+    });
+});
+
+

@@ -88,10 +88,12 @@ tr {
   margin: auto;
   padding: 1%;
 }
+
 a:hover {
     background-color: var(--bg-txt);
     transform: translateY(-3px);
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.2s ease;
   }
 .main-group {
   font-size: 24px;
