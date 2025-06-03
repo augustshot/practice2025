@@ -68,18 +68,18 @@ body {
 
 /* Слой 1*/
 #layer1 {
-    background-image: url('../img/IMG_2069.PNG');
+    background-image: url('../img/mine-bg.PNG');
     z-index: 1;
 }
 
 /* Слой 2*/
 #layer2 {
-    background-image: url("../img/IMG_2076.PNG");
+    background-image: url("../img/inner.PNG");
     z-index: 2;
 }
 
 #layer3 {
-    background-image: url("../img/IMG_2075.PNG");
+    background-image: url("../img/outer.PNG");
     z-index: 30;
 }
 
