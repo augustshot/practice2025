@@ -67,7 +67,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // Заполняем данными
             tooltip.innerHTML = `
                 <h3>${stonesData[index].name}</h3>
-                <p><strong>Глубина:</strong> ${stonesData[index].depth} </p>
+                <p><strong>Глубина:</strong> ${stonesData[index].depth} м</p>
             `;
             
             tooltip.classList.add('visible');
@@ -107,7 +107,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Индикатор глубины
         document.getElementById('depthFill').style.height = `${100-depthPercent}%`;
-        document.getElementById('depthText').textContent = `Глубина: ${Math.floor((scrollPos+document.documentElement.clientHeight)/50)}м`;
+        document.getElementById('depthText').textContent = `Глубина: ${Math.floor((scrollPos+document.documentElement.clientHeight)/50)} м`;
 
         // Камни с оптимизированными проверками
         stones.forEach(stone => {

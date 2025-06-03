@@ -1,8 +1,12 @@
+@font-face {
+  font-family: "regular";
+  src: local("regular"), url(font/shentox.ttf);
+}
 body {
     margin: 0;
     padding: 0;
     height: 50000px; /* Очень большая высота для бесконечного эффекта */
-    font-family: 'Arial', sans-serif;
+    font-family: regular;
     overflow-x: hidden;
     scroll-behavior: smooth;
 }
@@ -106,9 +110,9 @@ body {
 }
 
 
-.stone-1 { left: 10%; top: 30000px; transform: scale(1.3); background-image: url(/public/img/IMG_2100.PNG);}
-.stone-2 { left: 80%; top: 15000px; transform: scale(1.5); background-image: url(/public/img/IMG_2099.PNG);}
-.stone-3 { left: 10%; top: 5000px; transform: scale(1.3); background-image: url(/public/img/IMG_2101.PNG);}
+.stone-1 { left: 10%; top: 30000px; transform: scale(1.3); background-image: url("../img/IMG_2100.PNG");}
+.stone-2 { left: 80%; top: 15000px; transform: scale(1.5); background-image: url("../img/IMG_2099.PNG");}
+.stone-3 { left: 10%; top: 5000px; transform: scale(1.3); background-image: url("../img/IMG_2101.PNG");}
 .stone-4 { left: 10%; top: 2500px; transform: scale(0.9); }
 .stone-5 { left: 10%; top: 12700px; transform: scale(1.4); }
 
@@ -183,7 +187,7 @@ body {
     border-radius: 8px;
     padding: 12px;
     color: rgb(0, 0, 0);
-    font-size: 14px;
+    font-size: 16px;
     max-width: 200px;
     pointer-events: none;
     opacity: 0;

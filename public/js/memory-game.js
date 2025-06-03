@@ -59,6 +59,7 @@ function createMemoryBoard() {
 }
 
 function startMemoryGame() {
+    stopMemoryGame();
     resetMemoryGame();
     memoryCards.forEach(card => {
         card.querySelector('span').style.display = 'block'; // Показываем символы
