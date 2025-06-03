@@ -319,6 +319,7 @@ footer {
   display: grid;
   margin-top: 10%;
   text-align: center;
+    
   * {
     transition: all 0.2s ease;
     margin: auto;
@@ -326,6 +327,7 @@ footer {
     border-radius: 25px;
     padding: 2%;
     width: 80%;
+    justify-content: center;
   }
 }
 #go-to a:hover {
@@ -373,4 +375,9 @@ footer {
 }
 #email {
   grid-area: email;
+}
+
+.label{
+  text-align: center;
+  text-indent: 0;
 }
