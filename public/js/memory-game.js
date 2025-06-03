@@ -181,12 +181,11 @@ async function getRating() {
     try {
         const response = await fetch('/rating');
         if (!response.ok) {
-            throw new Error('Не удалось загрузить тесты');
+            throw new Error('Не удалось загрузить рейтинг');
         }
         ratingDatabase = await response.json();
     } catch (error) {
-        console.error('Ошибка загрузки тестов:', error);
-        testCategories.innerHTML = '<p class="error">Не удалось загрузить тесты. Пожалуйста, попробуйте позже.</p>';
+        console.error('Ошибка загрузки рейтинга:', error);
     }
     const sortedParticipants = [...ratingDatabase].sort((a, b) => a.score - b.score);
     const top10 = sortedParticipants.slice(0, 10);
