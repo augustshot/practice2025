@@ -44,6 +44,11 @@ a:hover{
 }
 #rating{
     grid-area: rating;
+    /* display: grid; */
+    /* justify-content: center; */
+    text-align: center;
+}
+#table{
     display: grid;
     justify-content: center;
 }
@@ -100,4 +105,24 @@ button {
 }
 .hidden {
     display: none;
+}
+td{
+    padding: 10px 40px 10px 40px;
+}
+#addUserForm{
+    text-align: center;
+}
+#ok{
+    padding: 5px 10px;
+    display: inline;
+}
+#input{
+    display: inline;
+}
+input{
+    border-radius: 20px;
+    border: 2px solid #665496;
+}
+#fine{
+    color: rgb(163, 16, 21);
 }

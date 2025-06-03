@@ -4,6 +4,8 @@ const memoryTime = document.getElementById('memory-time');
 const memoryMoves = document.getElementById('memory-moves');
 const memoryStartBtn = document.getElementById('memory-start');
 const memoryStopBtn = document.getElementById('memory-stop');
+const form = document.getElementById('addUserForm');
+const fine = document.getElementById("fine");
 
 let memorySize = 4; 
 let memoryCards = [];
@@ -15,6 +17,8 @@ let timer;
 let seconds = 0;
 let matchedPairs = 0;
 let totalPairs = 0;
+let ratingDatabase = {};
+let fineTimer;
 
 memoryStartBtn.addEventListener('click', startMemoryGame);
 memoryStopBtn.addEventListener('click', stopMemoryGame);
@@ -129,38 +133,99 @@ function checkForMatch() {
         matchedPairs++;
         if (matchedPairs === totalPairs) {
             clearInterval(timer);
-            alert(`Поздравляем! Вы победили за ${seconds} секунд и ${moves} ходов!`);
-            addResult();
+            form.classList.remove("hidden");
         }
     } else {
         unflipCards();
+        seconds+=2;
+        fine.classList.remove("hidden");
+        setTimeout(() => {
+            fine.classList.add('hidden');
+        }, 1000);
     }
 }
 
-function addResult(){
+form.addEventListener('submit', async function(e) {
+    e.preventDefault(); // Предотвращаем стандартную отправку формы
+    form.classList.add("hidden");
+    const name = document.getElementById('name').value;
+    const score = seconds;
+    try {
+        // Отправляем данные на сервер
+        const response = await fetch('http://localhost:3000/rating', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                name: name,
+                score: score
+            })
+        });
 
-    showRating();
-}
+        if (!response.ok) {
+            throw new Error('Ошибка при добавлении пользователя');
+        }
 
-async function loadRating() {
+        const result = await response.text();
+        // Очищаем форму после успешного добавления
+        document.getElementById('addUserForm').reset();
+        getRating();
+    } catch (error) {
+        console.error('Ошибка:', error);
+    }
+});
+
+
+async function getRating() {
     try {
         const response = await fetch('/rating');
         if (!response.ok) {
             throw new Error('Не удалось загрузить тесты');
         }
         ratingDatabase = await response.json();
-        // ratingDatabase = SQLtoJson(testsDatabase);
-        // console.log(testsDatabase);
     } catch (error) {
         console.error('Ошибка загрузки тестов:', error);
         testCategories.innerHTML = '<p class="error">Не удалось загрузить тесты. Пожалуйста, попробуйте позже.</p>';
     }
+    const sortedParticipants = [...ratingDatabase].sort((a, b) => a.score - b.score);
+    const top10 = sortedParticipants.slice(0, 10);
+    let tableHTML = `
+        <table>
+            <thead>
+                <tr>
+                    <th>Место</th>
+                    <th>Имя</th>
+                    <th>Время</th>
+                </tr>
+            </thead>
+            <tbody>
+    `;
+    if(ratingDatabase.length == 0){
+        tableHTML += `
+                <tr>
+                    <td colspan=3 >Здесь пока никого нет!</td>
+                </tr>
+            `;
+    }
+    else{
+        top10.forEach((participant, index) => {
+            tableHTML += `
+                <tr>
+                    <td>${index + 1}</td>
+                    <td>${participant.name}</td>
+                    <td>${participant.score}</td>
+                </tr>
+            `;
+    });
+    }
+    tableHTML += `
+            </tbody>
+        </table>
+    `;
+    document.getElementById("table").innerHTML = tableHTML;
 }
 
-function showRating(){
-    loadRating();
-
-}
 
 function disableCards() {
     firstCard.classList.add('matched');
@@ -187,4 +252,4 @@ function resetBoard() {
 }
 
 createMemoryBoard();
-showRating();
+getRating();

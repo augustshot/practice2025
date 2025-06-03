@@ -33,13 +33,32 @@ app.get('/rating', (request, response) => {
     });
 });
 
-app.post('/api/rating', async (req, res) => {
-  try {
-    const { name, score } = req.body;
-    await pool.query('INSERT INTO rating (name, score) VALUES (?, ?)', [name, score]);
-    res.json({ success: true });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: 'Insert failed' });
-  }
+// app.post('/rating', async (req, res) => {
+//   try {
+//     const { name, score } = req.body;
+//     await pool.query('INSERT INTO rating (name, score) VALUES (?, ?)', [name, score]);
+//     res.json({ success: true });
+//   } catch (err) {
+//     console.error(err);
+//     res.status(500).json({ error: 'Insert failed' });
+//   }
+// });
+
+
+app.post('/rating', (request, response) => {
+    pool.query('INSERT INTO rating SET ?', request.body, (error, result) => {
+        if (error) throw error;
+        response.status(201).send(`User added with ID: ${result.insertId}`);
+    });
 });
+
+// Update an existing user 
+app.put('/rating/:name', (request, response) => {
+    const name = request.params.name;
+    pool.query('UPDATE rating SET ? WHERE name = ?', [request.body, name], (error, result) => {
+        if (error) throw error;
+        response.send('User updated successfully.');
+    });
+});
+
+
