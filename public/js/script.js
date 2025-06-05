@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
         { element: document.getElementById('layer3'), speed: 1.6, height: 1000 }
     ];
 
-    const stones = Array.from({length: 24}, (_, i) => ({
+    const stones = Array.from({length: 23}, (_, i) => ({
         element: document.querySelector(`.stone-${i+1}`),
         minDepth: document.querySelector(`.stone-${i+1}`).offsetTop-2000,
         maxDepth: document.querySelector(`.stone-${i+1}`).offsetTop + document.documentElement.clientHeight*3
@@ -42,8 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     { name: "Золото", depth:  "50-3000" },
     { name: "Эритрин", depth:  "100-500" },
-    { name: "Серебро", depth:  "100-1000" },
-    { name: "Висмут", depth:  "100-1000" }];
+    { name: "Серебро", depth:  "100-1000" }];
 
     const tooltip = document.getElementById('tooltip');
     let activeTooltip = null;
