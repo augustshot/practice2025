@@ -151,7 +151,7 @@ body {
 }
 .deep-final-image {
     position: absolute;
-    top: 49800px; /* Размещаем почти в самом конце страницы */
+    top: 49600px; /* Размещаем почти в самом конце страницы */
     left: 50%;
     transform: translateX(-50%);
     width: 100%;
@@ -163,9 +163,6 @@ body {
 .deep-final-image img {
     width: 100%;
     height: auto;
-    border-radius: 10px;
-    box-shadow: 0 0 30px rgba(0, 255, 255, 0.7);
-    filter: brightness(0.7) contrast(1.2);
 }
 .stone {
     cursor: pointer;
