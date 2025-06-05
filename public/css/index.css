@@ -1,35 +1,19 @@
 :root {
   --bg-main: rgb(223, 221, 231);
-  --bg-light: rgb(242, 242, 250);
   --bg-txt: rgb(204, 198, 216);
-  --bg-darker: #c0b2d1;
   --bg-dark: rgb(165, 141, 196);
   --title: #665496;
   --txt: rgb(49, 40, 59);
-  --bg-image: url(/img/bg.jpg);
-  --bg-warning: rgb(241, 144, 144);
-  --bord-warning: rgb(192, 34, 34);
-  --bg-table: rgb(223, 221, 231);
-  --bg-caption: rgb(165, 141, 196);
-  --bg-group: rgb(184, 171, 201);
-  --table-border: rgb(100, 87, 117);
+  --bg-image: url("../img/bg.jpg");
 }
 
 [data-theme="dark"] {
-  --bg-main: rgb(57, 45, 78);
-  --bg-light: #bfb1ca;
-  --bg-txt: rgb(83, 71, 107);
-  --bg-darker: rgb(108, 97, 133);
-  --bg-dark: rgb(93, 68, 128);
+  --bg-main: rgb(78, 60, 104);
+  --bg-txt: rgb(179, 168, 197);
+  --bg-dark: rgb(134, 113, 163);
   --title: rgb(235, 232, 245);
   --txt: rgb(242, 242, 250);
-  --bg-image: url(/img/bgdark.jpg);
-  --bg-warning: rgb(204, 71, 71);
-  --bord-warning: rgb(107, 20, 20);
-  --bg-table: rgb(125, 111, 150);
-  --bg-caption: rgb(66, 51, 88);
-  --bg-group: rgb(77, 55, 97);
-  --table-border: rgb(19, 12, 31);
+  --bg-image: url(../img/bgdark.jpg);
 }
 
 .container {
@@ -217,10 +201,10 @@ nav {
     height: 70%;
     text-align: center;
     border-radius: 10px;
-    background-color: var(--bg-light);
+    background-color: var(--bg-main);
     padding: 10px;
     margin: 3% 5% 3% 5%;
-    color: rgb(49, 40, 59);
+    color: var(--txt);
   }
 }
 .nav {
@@ -262,7 +246,7 @@ a {
   text-align: justify;
 }
 footer {
-  background-color: var(--bg-darker);
+  background-color: var(--bg-dark);
   height: auto;
   grid-area: footer;
   text-align: center;
@@ -303,7 +287,7 @@ footer {
   font-size: 30px;
   padding-top: 2%;
   border-radius: 15px;
-  background-color: var(--bg-darker);
+  background-color: var(--bg-dark);
   margin-bottom: 2%;
 }
 #img-left img {
@@ -337,7 +321,7 @@ footer {
   }
 }
 #go-to a:hover {
-  background-color: var(--bg-darker);
+  background-color: var(--bg-dark);
   transform: translateY(-3px);
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 }
@@ -350,8 +334,8 @@ footer {
   border: 3px solid var(--bg-dark);
   border-radius: 15px;
   padding: 2%;
-  background-color: var(--bg-light);
-  color: rgb(49, 40, 59);
+  background-color: var(--bg-main);
+  color: var(--txt);
 }
 #divider {
   background-image: url("/img/divider.png");
