@@ -74,12 +74,12 @@ table,
 th,
 td,
 tr {
-  border: 1px solid var(--table-border);
+  border: 1px solid var(--bg-dark);
   border-collapse: collapse;
   text-align: center;
   margin: 3% auto 3% auto;
   padding: 3%;
-  background-color: var(--bg-table);
+  background-color: var(--bg-main);
 }
 
 .inner * {
@@ -98,7 +98,7 @@ a:hover {
 .main-group {
   font-size: 24px;
   padding: 1%;
-  background-color: var(--bg-group);
+  background-color: var(--bg-dark);
   font-weight: bold;
 }
 
@@ -106,7 +106,7 @@ a:hover {
   font-size: 30px;
   font-weight: bold;
   text-align: center;
-  background-color: var(--bg-caption);
+  background-color: var(--bg-dark);
   margin: 2%;
 }
 .inner a * div {
