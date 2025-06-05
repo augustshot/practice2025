@@ -22,6 +22,14 @@ const resultsContainer = document.getElementById('results-container');
 const resultsContent = document.getElementById('results-content');
 const restartBtn = document.getElementById('restart-btn');
 
+// Обработчики событий
+backButton.addEventListener('click', backToSelection);
+prevBtn.addEventListener('click', prevQuestion);
+nextBtn.addEventListener('click', nextQuestion);
+restartBtn.addEventListener('click', () => startTest(appState.currentTest));
+document.addEventListener('DOMContentLoaded', loadTests);
+
+// Заглрузка тестов из базы данных
 async function loadTests() {
     try {
         const response = await fetch('/tests');
@@ -30,7 +38,6 @@ async function loadTests() {
         }
         testsDatabase = await response.json();
         testsDatabase = SQLtoJson(testsDatabase);
-        // console.log(testsDatabase);
         initTestSelection();
     } catch (error) {
         console.error('Ошибка загрузки тестов:', error);
@@ -45,8 +52,9 @@ function initTestSelection() {
     for (const [testId, testData] of Object.entries(testsDatabase)) {
         const testElement = document.createElement('div');
         testElement.className = 'test-category';
+        //  Если тест был пройден на 100%, добавляем соответсвующую надпись
         testElement.innerHTML = `
-            <h3>${testData.title}${localStorage.getItem(testData.title) == 1 ? ' <span class="correct">(100%)</span>' : ''}</h3>
+            <h3>${testData.title}${localStorage.getItem(testData.title) == 1 ? ' <span class="correct">(100%)</span>' : ''}</h3> 
             <p style="font-size:20px;">Вопросов: ${testData.questions.length}</p>
         `;
         
@@ -55,13 +63,13 @@ function initTestSelection() {
     }
 }
 
+// Приводим полученный из базы данных JSON-файл к необходимому для работы формату
 function SQLtoJson(data) {
   const result = {};
   
   data.forEach(item => {
     const testTitle = item.test_title;
     
-    // Если теста еще нет в результате, добавляем его
     if (!result[testTitle]) {
       result[testTitle] = {
         title: testTitle,
@@ -69,15 +77,13 @@ function SQLtoJson(data) {
       };
     }
     
-    // Добавляем вопрос в соответствующий тест
     result[testTitle].questions.push({
       question: item.question_text,
       correctAnswer: item.correct_answer,
-      options: item.options.split(',') // Преобразуем строку в массив
+      options: item.options.split(',') 
     });
   });
   
-  // Преобразуем объект в массив
   return Object.values(result);
 }
 
@@ -96,7 +102,6 @@ function startTest(testId, resetProgress = true) {
     testSelection.style.display = 'none';
     testContainer.style.display = 'grid';
     
-    // Показываем все элементы вопроса (на случай повторного прохождения)
     document.querySelector('.progress').style.display = 'grid';
     questionText.style.display = 'grid';
     optionsContainer.style.display = 'grid';
@@ -139,13 +144,8 @@ function loadQuestion(index) {
     currentQuestionSpan.textContent = index + 1;
     totalQuestionsSpan.textContent = test.questions.length;
     
-    // Обновляем прогресс-бар
     updateProgressBar(index, test.questions.length);
-    
-    // Обновляем кнопки навигации
     updateNavigationButtons(index, test.questions.length);
-    
-    // Скрываем результаты если они были показаны
     resultsContainer.style.display = 'none';
 }
 
@@ -195,21 +195,17 @@ function prevQuestion() {
 function completeTest() {
     appState.completed = true;
     
-    // Скрываем элементы вопроса
     document.querySelector('.progress').style.display = 'none';
     questionText.style.display = 'none';
     optionsContainer.style.display = 'none';
     prevBtn.style.display = 'none';
     nextBtn.style.display = 'none';
     
-    // Показываем результаты
     showResults();
     resultsContainer.style.display = 'grid';
 }
 
-// Обработчик кнопки "Пройти заново" (обновленный)
 restartBtn.addEventListener('click', () => {
-    // Полностью сбрасываем прогресс при перезапуске
     startTest(appState.currentTest, true);
 });
 
@@ -217,41 +213,28 @@ restartBtn.addEventListener('click', () => {
 function showResults() {
     const test = testsDatabase[appState.currentTest];
     let correctAnswers = 0;
-    
-    // Создаем более компактный HTML для результатов
-    let resultsHTML = `
-        <ol style="margin-top: 0.5rem;">
-    `;
-    
+    let resultsHTML = `<ol>`;
     test.questions.forEach((question, index) => {
         const userAnswerIndex = appState.answers[index];
         const isCorrect = userAnswerIndex === question.correctAnswer;
         
         if (isCorrect) correctAnswers++;
         
-        resultsHTML += `
-            <li style="margin-bottom: 0.8rem;">
-                <p style="margin: 0.2rem 0;"><strong>Вопрос:</strong> ${question.question}</p>
-                <p style="margin: 0.2rem 0;"><strong>Ваш ответ:</strong><span class=${isCorrect ? 'correct' : 'incorrect'}>
+        resultsHTML += `<li>
+                <p><strong>Вопрос:</strong> ${question.question}</p>
+                <p><strong>Ваш ответ:</strong><span class=${isCorrect ? 'correct' : 'incorrect'}>
                 ${userAnswerIndex !== undefined ? question.options[userAnswerIndex] : 'Нет ответа'}</span></p>
-                ${!isCorrect ? `<p style="margin: 0.2rem 0;"><strong>Правильный ответ:</strong> ${question.options[question.correctAnswer]}</p>` : ''}
+                ${!isCorrect ? `<p><strong>Правильный ответ:</strong> ${question.options[question.correctAnswer]}</p>` : ''}
             <p></li>
         `;
     });
     
     resultsHTML += `</ol>`;
-    resultsHTML += `<h3><p style="margin: 0.5rem 0 0 0; text-align: center;"><strong>Итого:</strong> ${correctAnswers} из ${test.questions.length} `;
+    resultsHTML += `<h3><p id="res"><strong>Итого:</strong> ${correctAnswers} из ${test.questions.length} `;
     resultPercent = Math.round(correctAnswers / test.questions.length * 100);
     resultsHTML += `(` + resultPercent + `%)</p></h3>`;
+    // Запоминаем, если тест пройден на 100%
     if(resultPercent == 100) localStorage.setItem(testsDatabase[appState.currentTest].title, 1);
     testContainer.style.gap=0;
     resultsContent.innerHTML = resultsHTML;
 }
-
-// Обработчики событий
-backButton.addEventListener('click', backToSelection);
-prevBtn.addEventListener('click', prevQuestion);
-nextBtn.addEventListener('click', nextQuestion);
-restartBtn.addEventListener('click', () => startTest(appState.currentTest));
-
-document.addEventListener('DOMContentLoaded', loadTests);

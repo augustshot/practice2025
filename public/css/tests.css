@@ -248,3 +248,17 @@ button:disabled {
 .correct{
     color: rgb(11, 122, 11);
 }
+
+li{
+    margin-bottom: 0.8rem;
+}
+ol{
+    margin-top: 0.5rem;
+}
+li *{
+    margin: 0.2rem 0;
+}
+#res{
+    margin: 0.5rem 0 0 0; 
+    text-align: center;
+}

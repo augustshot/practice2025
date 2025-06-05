@@ -16,7 +16,7 @@ let moves = 0;
 let timer;
 let seconds = 0;
 let matchedPairs = 0;
-let totalPairs = 0;
+let totalPairs = 8;
 let ratingDatabase = {};
 let fineTimer;
 
@@ -29,11 +29,11 @@ function createMemoryBoard() {
     memoryBoard.style.gridTemplateColumns = `repeat(${memorySize}, 70px)`;
     
     // Создаем пары карточек
-    totalPairs = Math.floor(memorySize * memorySize / 2);
-    const symbols = ['🐶', '🐱', '🐭', '🐹', '🐰', '🦊', '🐻', '🐼'];
-    const selectedSymbols = symbols.slice(0, totalPairs);
-    const cards = [...selectedSymbols, ...selectedSymbols];
-    
+    let minerals = [];
+    for(let index = 1; index<9; index++){
+        minerals.push("../img/game/" + index + ".PNG");
+    }
+    const cards = [...minerals, ...minerals];
     // Перемешиваем карточки
     for (let i = cards.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
@@ -41,18 +41,18 @@ function createMemoryBoard() {
     }
     
     // Создаем элементы карточек
-    cards.forEach((symbol, index) => {
+    cards.forEach((mineral, index) => {
         const card = document.createElement('div');
         card.classList.add('memory-card');
-        card.dataset.symbol = symbol;
+        card.dataset.mineral = mineral;
         card.dataset.index = index;
         
-        // Добавляем span для символа
-        const symbolSpan = document.createElement('span');
-        symbolSpan.textContent = symbol;
-        symbolSpan.style.display = 'none'; // Сначала скрываем
+        // Добавляем img для минерала
+        const mineralimg = document.createElement('img');
+        mineralimg.src = mineral;
+        mineralimg.style.display = 'none'; // Сначала скрываем
         
-        card.appendChild(symbolSpan);
+        card.appendChild(mineralimg);
         memoryBoard.appendChild(card);
     });
     
@@ -63,11 +63,11 @@ function startMemoryGame() {
     stopMemoryGame();
     resetMemoryGame();
     memoryCards.forEach(card => {
-        card.querySelector('span').style.display = 'block'; // Показываем символы
+        card.querySelector('img').style.display = 'block'; // Показываем минералы
         card.classList.add('flipped');
         setTimeout(() => {
             card.classList.remove('flipped');
-            card.querySelector('span').style.display = 'none'; // Скрываем снова
+            card.querySelector('img').style.display = 'none'; // Скрываем снова
         }, 1500);
     });
     
@@ -100,7 +100,7 @@ function resetMemoryGame() {
     [firstCard, secondCard] = [null, null];
     memoryCards.forEach(card => {
         card.classList.remove('flipped', 'matched');
-        card.querySelector('span').style.display = 'none';
+        card.querySelector('img').style.display = 'none';
         card.addEventListener('click', flipCard);
     });
 }
@@ -111,7 +111,7 @@ function flipCard() {
     if (this.classList.contains('matched')) return;
     
     this.classList.add('flipped');
-    this.querySelector('span').style.display = 'block'; // Показываем символ при перевороте
+    this.querySelector('img').style.display = 'block'; // Показываем минерал при перевороте
     
     if (!hasFlippedCard) {
         // Первый клик
@@ -128,7 +128,7 @@ function flipCard() {
 }
 
 function checkForMatch() {
-    const isMatch = firstCard.dataset.symbol === secondCard.dataset.symbol;
+    const isMatch = firstCard.dataset.mineral === secondCard.dataset.mineral;
     
     if (isMatch) {
         disableCards();
@@ -206,39 +206,19 @@ async function getRating() {
     }
     const sortedParticipants = [...ratingDatabase].sort((a, b) => a.score - b.score);
     const top10 = sortedParticipants.slice(0, 10);
-    let tableHTML = `
-        <table>
-            <thead>
-                <tr>
-                    <th>Место</th>
-                    <th>Имя</th>
-                    <th>Время</th>
-                </tr>
-            </thead>
-            <tbody>
-    `;
+    let tableHTML = `<table><thead><tr><th>Место</th><th>Имя</th><th>Время</th></tr></thead><tbody>`;
     if(ratingDatabase.length == 0){
-        tableHTML += `
-                <tr>
-                    <td colspan=3 >Здесь пока никого нет!</td>
-                </tr>
-            `;
+        tableHTML += `<tr><td colimg=3 >Здесь пока никого нет!</td></tr>`;
     }
     else{
         top10.forEach((participant, index) => {
-            tableHTML += `
-                <tr>
+            tableHTML += `<tr>
                     <td>${index + 1}</td>
                     <td>${participant.name}</td>
-                    <td>${participant.score}</td>
-                </tr>
-            `;
+                    <td>${participant.score}</td></tr> `;
     });
     }
-    tableHTML += `
-            </tbody>
-        </table>
-    `;
+    tableHTML += `</tbody></table>`;
     document.getElementById("table").innerHTML = tableHTML;
 }
 
@@ -256,8 +236,8 @@ function unflipCards() {
     setTimeout(() => {
         firstCard.classList.remove('flipped');
         secondCard.classList.remove('flipped');
-        firstCard.querySelector('span').style.display = 'none';
-        secondCard.querySelector('span').style.display = 'none';
+        firstCard.querySelector('img').style.display = 'none';
+        secondCard.querySelector('img').style.display = 'none';
         resetBoard();
     }, 1000);
 }

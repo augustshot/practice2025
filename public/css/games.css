@@ -30,6 +30,9 @@ body {
     background-size: cover;
     hyphens: auto;
 }
+img{
+    width: 100%;
+}
 #game{
     grid-area: game;
 }
@@ -41,7 +44,7 @@ body {
     text-align: center;
     grid-area: back;
     font-size: 20px;
-    margin: 5%;
+    /* margin: 5%; */
 }
 a{
     text-decoration: none;
@@ -102,7 +105,7 @@ button {
     border-radius: 5px;
     transition: all 0.3s;
 }
-.memory-card.flipped {
+div .memory-card.flipped {
     background-color: rgb(204, 198, 216);
     transform: rotateY(180deg);
 }
