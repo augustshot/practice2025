@@ -2,19 +2,20 @@ document.addEventListener('DOMContentLoaded', () => {
     const maxDepth = 50000;
     let lastScroll = 0;
     let ticking = false;
-    
+    //установка скорости для движения слев
     const layers = [
         { element: document.getElementById('layer1'), speed: 0.3, height: 600 },
         { element: document.getElementById('layer2'), speed: 1, height: 800 },
         { element: document.getElementById('layer3'), speed: 1.6, height: 1000 }
     ];
-
+    //настройки отображения для камней - минимальная и максимальная высота при которой они видны
     const stones = Array.from({length: 23}, (_, i) => ({
         element: document.querySelector(`.stone-${i+1}`),
         minDepth: document.querySelector(`.stone-${i+1}`).offsetTop-2000,
         maxDepth: document.querySelector(`.stone-${i+1}`).offsetTop + document.documentElement.clientHeight*3
         
     }));
+    //StoneData
     const stonesData = [
     { name: "Алмаз", depth: "50-1200" },
     { name: "Аквамарин", depth: "50-500" },
@@ -43,7 +44,7 @@ document.addEventListener('DOMContentLoaded', () => {
     { name: "Золото", depth:  "50-3000" },
     { name: "Эритрин", depth:  "100-500" },
     { name: "Серебро", depth:  "100-1000" }];
-
+    //ищем окно с описанием камней
     const tooltip = document.getElementById('tooltip');
     let activeTooltip = null;
 
@@ -84,7 +85,7 @@ document.addEventListener('DOMContentLoaded', () => {
             activeTooltip = null;
         }
     });
-    // Оптимизация: предварительный расчет
+    // Оптимизация: предварительный расчет движения слоев при прокрутке
     layers.forEach(layer => {
         layer.element.style.height = `${layer.height * 3}px`;
         layer.element.style.willChange = 'transform';
@@ -94,7 +95,7 @@ document.addEventListener('DOMContentLoaded', () => {
         stone.element.style.height = `${stone.height * 3}px`;
         stone.element.style.willChange = 'transform, opacity';
     });
-
+    //двигаем
     function updateParallax(scrollPos) {
         const depthPercent = (scrollPos+document.documentElement.clientHeight) / maxDepth * 100;
         
@@ -114,7 +115,7 @@ document.addEventListener('DOMContentLoaded', () => {
             stone.element.style.opacity = isVisible ? '1' : '0';
         });
         const finalImage = document.getElementById('deepFinalImage');
-        const finalImageStartDepth = 45000; // Когда начинать показ
+        const finalImageStartDepth = 45000; // Когда начинать показ низа
         
         if (scrollPos >= finalImageStartDepth) {
             finalImage.style.opacity = 1;
@@ -123,6 +124,7 @@ document.addEventListener('DOMContentLoaded', () => {
             finalImage.style.opacity = 0;
         }
     }
+    //прослушка на скролл 
     window.addEventListener('scroll', () => {
         lastScroll = window.scrollY;
         
