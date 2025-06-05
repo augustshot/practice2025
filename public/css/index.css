@@ -6,7 +6,7 @@
   --bg-dark: rgb(165, 141, 196);
   --title: #665496;
   --txt: rgb(49, 40, 59);
-  --bg-image: url(/img/bg.jpg);
+  --bg-image: url("../img/bg.jpg");
   --bg-warning: rgb(241, 144, 144);
   --bord-warning: rgb(192, 34, 34);
   --bg-table: rgb(223, 221, 231);
@@ -23,7 +23,7 @@
   --bg-dark: rgb(93, 68, 128);
   --title: rgb(235, 232, 245);
   --txt: rgb(242, 242, 250);
-  --bg-image: url(/img/bgdark.jpg);
+  --bg-image: url("../img/bgdark.jpg");
   --bg-warning: rgb(204, 71, 71);
   --bord-warning: rgb(107, 20, 20);
   --bg-table: rgb(125, 111, 150);
