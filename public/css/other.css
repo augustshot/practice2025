@@ -27,6 +27,9 @@
 #links {
   margin-bottom: 2%;
 }
+#links a:hover{
+  text-decoration: underline;
+}
 textarea {
   width: 50%;
   max-width: 95%;
@@ -48,7 +51,6 @@ textarea {
   justify-content: center;
 }
 #mine{
-  
   display: table;
   width: 50%;
   min-height: 500px;
