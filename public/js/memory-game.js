@@ -22,6 +22,7 @@ let fineTimer;
 
 memoryStartBtn.addEventListener('click', startMemoryGame);
 memoryStopBtn.addEventListener('click', stopMemoryGame);
+form.addEventListener('submit', addRating);
 
 function createMemoryBoard() {
     memoryBoard.innerHTML = '';
@@ -146,37 +147,52 @@ function checkForMatch() {
     }
 }
 
-form.addEventListener('submit', async function(e) {
+async function addRating(e) {
     e.preventDefault(); // Предотвращаем стандартную отправку формы
     form.classList.add("hidden");
     const name = document.getElementById('name').value;
     const score = seconds;
     try {
-        // Отправляем данные на сервер
-        const response = await fetch('http://localhost:3000/rating', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                name: name,
-                score: score
-            })
-        });
-
-        if (!response.ok) {
-            throw new Error('Ошибка при добавлении пользователя');
+        const names = ratingDatabase.map(item => item.name);
+        if(names.includes(name)){
+            // есть пользователь - обновляем данные
+            const response = await fetch(`http://localhost:3000/rating/${encodeURIComponent(name)}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    score: score
+                })
+            });
+            if (!response.ok) {
+                throw new Error('Ошибка при обновлении данных пользователя');
+            }
         }
-
-        const result = await response.text();
+        else{
+            // нет пользователя - создаем нового
+            const response = await fetch('http://localhost:3000/rating', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    name: name,
+                    score: score
+                })
+            });
+            if (!response.ok) {
+                throw new Error('Ошибка при добавлении пользователя');
+            }
+        }
+        // const result = await response.text();
         // Очищаем форму после успешного добавления
         document.getElementById('addUserForm').reset();
         getRating();
     } catch (error) {
         console.error('Ошибка:', error);
     }
-});
-
+}
 
 async function getRating() {
     try {
